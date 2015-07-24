@@ -36,18 +36,21 @@
     float width_spacer = 320;
     float height_spacer = 27;
     
-    int falseY = 27;
+    float falseY = 27;
+    int numberOfSubViews = 1;
     
     //this is for calculating the whole height after adding the subviews to make the mainview bigger
-    for (int k =0;k<6;k++) {
-        if (k == 5) {
+    for (int k =0;k<numberOfSubViews;k++) {
+        if (k == numberOfSubViews - 1) {
             falseY = falseY + height_spacer;
         }else{
             falseY = falseY + height + height_spacer;
         }
     }
     
-    mainview_height = falseY + height;
+    if (falseY + height > mainview_height) {
+        mainview_height = falseY + height;
+    }
     self.constHeight.constant = mainview_height;
     
     [self.mainView layoutIfNeeded];
@@ -57,7 +60,7 @@
     [self.scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.mainView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    for(int k =0;k<6;k++)
+    for(int k =0;k<numberOfSubViews;k++)
     {
         UIView *view_spacer = [[UIView alloc]initWithFrame:CGRectMake(x_spacer, y_spacer, width_spacer, height_spacer)];
         [view_spacer setBackgroundColor:[UIColor clearColor]];
@@ -81,7 +84,7 @@
         [self setViewConstraints:view1 :height :width :mainview_height :view_spacer :self.mainView];
         
         //i changed like this because for the last item the height will not be added again. This will remove the space at the bottom.
-        if (k == 5) {
+        if (k == numberOfSubViews - 1) {
             y = y + height_spacer;
         }else{
             y = y + height + height_spacer;
